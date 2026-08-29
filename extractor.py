@@ -1,12 +1,14 @@
+import io
+
 import streamlit as st
 
 
-@st.cache_data
-def pdf_to_pages(file):
+@st.cache_data(show_spinner=False)
+def pdf_to_pages(file_bytes):
     import pdfplumber
 
     pages = []
-    with pdfplumber.open(file) as pdf:
+    with pdfplumber.open(io.BytesIO(file_bytes)) as pdf:
         for page_number, page in enumerate(pdf.pages, start=1):
             text = page.extract_text() or ""
             pages.append((page_number, text))
