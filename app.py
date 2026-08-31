@@ -19,7 +19,6 @@ if "extracted_files" not in st.session_state:
 
 st.title("A股年报关键财务数据提取")
 st.write("上传上市公司年报 PDF 后，这个页面将帮助你提取关键财务数据。")
-st.info("Render 免费实例启动和 PDF 解析都会比本地慢，建议上传后先点击“开始解析 PDF”，不要连续重复点击。")
 
 uploaded_file = st.file_uploader("上传 PDF 年报", type=["pdf"])
 
@@ -54,7 +53,8 @@ if uploaded_file is not None:
     if parsed_result:
         st.write(f"共 {parsed_result['pages_count']} 页")
         st.write(f"命中页码：{parsed_result['matched_page']}")
-        st.text_area("命中文字", parsed_result["matched_text"], height=400)
+        with st.expander("命中文字", expanded=False):
+            st.text_area("命中文字内容", parsed_result["matched_text"], height=400, label_visibility="collapsed")
         st.write(f"利润表命中页码：{parsed_result['income_page']}")
         with st.expander("查看利润表命中文字", expanded=False):
             st.write(parsed_result["income_text"])
@@ -116,54 +116,55 @@ if uploaded_file is not None:
         merged_result = extracted_result["merged_result"]
         metrics_result = extracted_result["metrics_result"]
 
-        st.json(merged_result)
-        st.json(metrics_result)
+        with st.expander("提取财务数据", expanded=False):
+            st.json(merged_result)
+            st.json(metrics_result)
 
-        field_groups = [
-                (
-                    "main",
-                    merged_result["main"],
-                    [
-                        "营业收入",
-                        "归属于上市公司股东的净利润",
-                        "归属于上市公司股东的扣除非经常性损益的净利润",
-                        "总资产",
-                        "归属于上市公司股东的净资产",
-                    ],
-                ),
-                (
-                    "income",
-                    merged_result["income"],
-                    ["营业收入", "营业成本", "营业总收入"],
-                ),
-                (
-                    "balance",
-                    merged_result["balance"],
-                    ["资产总计", "负债合计"],
-                ),
-        ]
+            field_groups = [
+                    (
+                        "main",
+                        merged_result["main"],
+                        [
+                            "营业收入",
+                            "归属于上市公司股东的净利润",
+                            "归属于上市公司股东的扣除非经常性损益的净利润",
+                            "总资产",
+                            "归属于上市公司股东的净资产",
+                        ],
+                    ),
+                    (
+                        "income",
+                        merged_result["income"],
+                        ["营业收入", "营业成本", "营业总收入"],
+                    ),
+                    (
+                        "balance",
+                        merged_result["balance"],
+                        ["资产总计", "负债合计"],
+                    ),
+            ]
 
-        table_rows = []
-        for group_name, group_result, field_names in field_groups:
-            for field_name in field_names:
-                field_data = group_result.get(field_name, {}) if isinstance(group_result, dict) else {}
-                if isinstance(field_data, dict):
-                    value = field_data.get("value")
-                    raw_line = field_data.get("raw_line")
-                else:
-                    value = None
-                    raw_line = None
+            table_rows = []
+            for group_name, group_result, field_names in field_groups:
+                for field_name in field_names:
+                    field_data = group_result.get(field_name, {}) if isinstance(group_result, dict) else {}
+                    if isinstance(field_data, dict):
+                        value = field_data.get("value")
+                        raw_line = field_data.get("raw_line")
+                    else:
+                        value = None
+                        raw_line = None
 
-                table_rows.append(
-                    {
-                        "类型": group_name,
-                        "字段名": field_name,
-                        "提取值": value,
-                        "原文行": raw_line,
-                    }
-                )
+                    table_rows.append(
+                        {
+                            "类型": group_name,
+                            "字段名": field_name,
+                            "提取值": value,
+                            "原文行": raw_line,
+                        }
+                    )
 
-        st.table(table_rows)
+            st.table(table_rows)
 
 if st.session_state.results:
     st.subheader("提取结果汇总")
