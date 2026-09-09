@@ -362,7 +362,8 @@ day3的开发日志\~
 
 这是我最后的scv：
 
-"J:\1\csv.png"
+<img width="2748" height="380" alt="csv" src="https://github.com/user-attachments/assets/bd28e3f6-a09a-49f2-932a-2b7daf2aeb74" />
+
 
 day4开发日志\~
 
