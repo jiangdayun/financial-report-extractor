@@ -1,8 +1,26 @@
 # README
-# financial-report-extractor 产品文档
+<div align="center">
 
-> 项目地址：https://github.com/jiangdayun/financial-report-extractor
-> 版本：1.0 | 状态：已部署公网可用
+<h1>A股年报财务数据提取器</h1>
+<p><i>financial-report-extractor</i></p>
+
+<p>上传年报 PDF → 自动定位财务表页 → 提取关键字段 → 附原文行与页码溯源 → 导出 CSV</p>
+
+<p>
+  <img src="https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Streamlit-1.40.2-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/LLM-DeepSeek-4D6BFE?style=flat-square" alt="LLM">
+  <img src="https://img.shields.io/badge/Accuracy-25_of_25-brightgreen?style=flat-square" alt="Accuracy">
+</p>
+
+<p>
+  <img src="https://img.shields.io/badge/version-1.0-blue?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/github/last-commit/jiangdayun/financial-report-extractor?style=flat-square" alt="Last commit">
+  <img src="https://img.shields.io/github/license/jiangdayun/financial-report-extractor?style=flat-square" alt="License">
+</p>
+
+</div>
+
 
 ---
 
